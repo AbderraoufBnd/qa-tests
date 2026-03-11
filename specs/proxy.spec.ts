@@ -23,7 +23,7 @@ test.describe("Proxy service", () => {
     });
 
     test("responds 400 if downstream response lacks user (dedicated route)", async ({ request }) => {
-        // Given: the proxy and downstream server are both running and healthy
+        // Given: the proxy and downstream server are both running and healthy and special route is set up to simulate downstream response with no `user` field
         // When: executing the loginThroughProxyNoUserFromDownStream API call with a valid user payload
         const resp = await loginThroughProxyNoUserFromDownStream(request, payloads.validUser);
         // Then: the proxy should respond with status 400 since it requires a `user` field in the downstream response
