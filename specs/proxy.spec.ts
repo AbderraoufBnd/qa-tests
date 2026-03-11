@@ -16,6 +16,7 @@ test.describe("Proxy service", () => {
         console.log("Response status:", resp.status(), body);
 
         expect(body).not.toHaveProperty("user");
+        expect(body).toHaveProperty("data", payloads?.validUser?.data);
     });
 
     test("responds 400 if downstream response lacks user (dedicated route)", async ({ request }) => {
