@@ -27,9 +27,7 @@ downstream server.
    ```json
    {
      "missingUser": { "foo": "bar" },
-     "validProxy": { "user": "alice", "data": 123 },
-     "userOnly": { "user": "alice" },
-     "validDownstream": { "user": "bob", "other": "x" },
+     "validUser": { "user": "alice", "data": 123 },
      "plainText": "this is not json"
    }
    ```
@@ -53,7 +51,7 @@ downstream server.
 
 2. **Downstream – valid request**
    - Given a POST to `http://localhost:8085/login` carrying
-     `validDownstream`.
+     `validUser`.
    - When the service handles the request.
    - Then the response should be **200**, echoing `user: "bob"`, plus a
      `token` and `timestamp` in the JSON body.
@@ -64,19 +62,19 @@ downstream server.
    - Then it should immediately reply **400** without consulting downstream.
 
 4. **Proxy – normal forwarding**
-   - Given a POST to `http://localhost:8000/login` with `validProxy`.
+   - Given a POST to `http://localhost:8000/login` with `validUser`.
    - When the proxy forwards the request to downstream.
    - Then the proxy should return **200**, strip the `user` field from the
      downstream JSON, and preserve other fields like `token` and `timestamp`.
 
 5. **Proxy – downstream omits user**
-   - Given a POST to `http://localhost:8000/login-no-user` with `userOnly`.
+   - Given a POST to `http://localhost:8000/login-no-user` with `validUser`.
    - When the downstream endpoint deliberately drops `user`.
    - Then the proxy should respond with **400**, treating the missing value as an
      error.
 
 6. **Proxy – downstream returns non‑JSON**
-   - Given a POST to `http://localhost:8000/login-invalid` with `userOnly`.
+   - Given a POST to `http://localhost:8000/login-invalid` with `validUser`.
    - When the proxy attempts to parse the downstream reply as JSON.
    - Then parsing fails and the proxy surfaces a **500** error.
 
