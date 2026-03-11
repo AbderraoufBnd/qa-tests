@@ -9,7 +9,7 @@ test.describe("Proxy service", () => {
         expect(resp.status()).toBe(400);
     });
 
-    test("forwards valid request and strips user from response", async ({ request }) => {
+    test("forwards valid request and strips user from response and keep other fields", async ({ request }) => {
         const resp = await loginThroughProxy(request, payloads.validUser);
         expect(resp.status()).toBe(200);
         const body = await resp.json();
