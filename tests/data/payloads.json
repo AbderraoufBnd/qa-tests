@@ -1,0 +1,7 @@
+{
+  "missingUser": { "foo": "bar" },
+  "validProxy": { "user": "alice", "data": 123 },
+  "userOnly": { "user": "alice" },
+  "validDownstream": { "user": "bob", "other": "x" },
+  "plainText": "this is not json"
+}

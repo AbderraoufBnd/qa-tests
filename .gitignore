@@ -12,15 +12,6 @@ wheels/
 # Node modules
 node_modules/
 
-# Playwright
-tests/playwright-report/
-tests/test-results/
-playwright-report/
-test-results/
-
-# Test reports
-test-report/
-
 # Environment variables
 .env
 .env.local

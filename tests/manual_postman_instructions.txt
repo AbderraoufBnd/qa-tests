@@ -1,0 +1,81 @@
+==== Client‑oriented Manual Testing Instructions ====
+
+I wrote this document for myself (or a client) to manually verify the proxy
+and downstream services using Postman.  It follows each scenario that the
+automated tests cover, showing exactly what I do and what results I expect.
+
+---
+
+### ✅ Preparation
+
+1. **Start the downstream server** by running:
+   ```bash
+   cd node_examples
+   node downstream_server.js
+   ```
+   The server listens on `http://localhost:8085`.
+
+2. **Make sure the proxy service** is up on `http://localhost:8000`.  This is
+the application under test; it should forward `/login` requests to the
+downstream server.
+
+3. I open Postman and create a new collection called **Proxy/Downstream Tests**.
+   I don’t need to import anything up front – I’ll add the requests as I go.
+
+4. These are the request bodies I’ll re‑use across the scenarios:
+
+   ```json
+   {
+     "missingUser": { "foo": "bar" },
+     "validProxy": { "user": "alice", "data": 123 },
+     "userOnly": { "user": "alice" },
+     "validDownstream": { "user": "bob", "other": "x" },
+     "plainText": "this is not json"
+   }
+   ```
+
+   When I send a non‑JSON body, I switch the Postman body type to **raw** and
+   select **Text**.
+
+---
+
+### 🔍 Individual test cases (executed in Postman)
+
+1. **Downstream – missing `user` field**
+   - I create a POST to `http://localhost:8085/login`.
+   - I add the `missingUser` JSON payload.
+   - I expect a **400** response; the body should say something like
+     `"Missing 'user' key"`.
+
+2. **Downstream – valid request**
+   - POST to `http://localhost:8085/login` with `validDownstream` payload.
+   - I should get **200** and a JSON body containing `user: "bob"`, a
+     `token` value, and a `timestamp`.
+
+3. **Proxy – request without user**
+   - POST to `http://localhost:8000/login` with `missingUser`.
+   - The proxy should immediately return **400** (no call to downstream).
+
+4. **Proxy – normal forwarding**
+   - POST to `http://localhost:8000/login` with `validProxy`.
+   - I expect **200**.  The returned JSON must **not** have a `user` field (the
+     proxy strips it), but it should include other data such as `token` and
+     `timestamp` from the downstream service.
+
+5. **Proxy – downstream omits user**
+   - POST to `http://localhost:8000/login-no-user` with `userOnly`.
+   - I should see **400** because the proxy detects the missing `user` in the
+     downstream response and treats it as an error.
+
+6. **Proxy – downstream returns non‑JSON**
+   - POST to `http://localhost:8000/login-invalid` with `userOnly`.
+   - The proxy will try to parse the reply as JSON and fail, giving me a **500**
+     error.
+
+7. **Proxy – client sends invalid JSON**
+   - POST to `http://localhost:8000/login` but set `Content-Type` to
+     `text/plain` and use the raw text `this is not json`.
+   - I expect a **400** response (the proxy rejects the invalid JSON before
+     forwarding).
+
+
