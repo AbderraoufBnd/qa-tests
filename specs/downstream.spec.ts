@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import { loginDirect } from "../helpers/apiClient";
-
 import payloads from "../helpers/payloads.json";
 
 test.describe("Downstream server", () => {
