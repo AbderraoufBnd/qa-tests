@@ -10,7 +10,7 @@ automated tests cover, showing exactly what I do and what results I expect.
 
 1. **Start the downstream server** by running:
    ```bash
-   cd node_examples
+   cd downStreamServer
    node downstream_server.js
    ```
    The server listens on `http://localhost:8085`.

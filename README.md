@@ -20,11 +20,10 @@ Following are the technical requirements:
 ### Environment configuration
 
 For a cleaner setup, the tests and helper modules read a few URLs from
-environment variables.  A `.env.example` file is provided at the project root –
+environment variables. A `.env.example` file is provided at the project root –
 copy it to `.env` and adjust the `PROXY_BASE_URL` / `DOWNSTREAM_BASE_URL`
-values if you run the services on non‑standard ports or hosts.  The TypeScript
+values if you run the services on non‑standard ports or hosts. The TypeScript
 fixtures automatically load these via [`dotenv`](https://www.npmjs.com/package/dotenv).
-
 
 ## Run the service:
 
@@ -73,7 +72,7 @@ Response Body:
 
 ## Node.js demonstration (additional)
 
-To illustrate the proxy requirements with a minimal JavaScript stack, a `node_examples` folder has been added. It contains:
+To illustrate the proxy requirements with a minimal JavaScript stack, a `downStreamServer` folder has been added. It contains:
 
 - `downstream_server.js` – an Express app listening on `localhost:8085` with a `POST /login` route that validates a `user` key and echoes a payload.
 - `proxy_server.js` – _(optional)_ an Express-based reverse proxy on `localhost:8000` that implements the same rules. **The tests you run below will use the existing Python proxy in `main.py` instead; this file is provided purely as an alternate JS example.**
@@ -104,7 +103,7 @@ This mirrors best practice by separating fixtures from the actual test cases.
 
    ```bash
    uv run main.py                # start the Python proxy on 8000
-   cd node_examples && npm run start:downstream
+   cd downStreamServer && npm run start:downstream
    ```
 
 3. **Run the tests**:
@@ -126,12 +125,12 @@ This mirrors best practice by separating fixtures from the actual test cases.
 
    A browser window will open with verbose results; the report is also saved in `playwright-report/index.html`.
 
-The helper code and URL constants lives in `qa-tests/tests/helpers/api` for clean reuse and maintenance. The JavaScript client scripts in `node_examples` (`proxy_client.js` and `direct_client.js`) now export functions that the Playwright tests even call directly – they can also be used standalone if you prefer to verify behaviour via Node.
+The helper code and URL constants lives in `qa-tests/tests/helpers/api` for clean reuse and maintenance. The JavaScript client scripts in `downStreamServer` (`proxy_client.js` and `direct_client.js`) now export functions that the Playwright tests even call directly – they can also be used standalone if you prefer to verify behaviour via Node.
 
 Install Node dependencies and run the demo with:
 
 ```bash
-cd node_examples
+cd downStreamServer
 npm install
 # start only the downstream server in a terminal
 npm run start:downstream
