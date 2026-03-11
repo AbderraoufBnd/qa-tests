@@ -1,10 +1,5 @@
 import { APIRequestContext } from "@playwright/test";
-import {
-  PROXY_LOGIN_URL,
-  PROXY_LOGIN_NO_USER_URL,
-  DIRECT_LOGIN_URL,
-  PROXY_LOGIN_INVALID_URL,
-} from "./urls";
+import { PROXY_LOGIN_URL, PROXY_LOGIN_NO_USER_URL, DIRECT_LOGIN_URL, PROXY_LOGIN_INVALID_URL } from "./urls";
 
 /**
  * Make a generic POST request with JSON body.
@@ -13,24 +8,20 @@ import {
  * @param data request body
  */
 export async function post(ctx: APIRequestContext, url: string, data: any) {
-  return ctx.post(url, { data });
+    return ctx.post(url, { data });
 }
 
 export async function loginThroughProxy(ctx: APIRequestContext, data: any) {
-  return post(ctx, PROXY_LOGIN_URL, data);
+    return post(ctx, PROXY_LOGIN_URL, data);
 }
 
 /**
  * Send a request through the proxy while asking downstream to omit the user
  * field via a dedicated downstream endpoint. The proxy should then respond with 400.
  */
-export async function loginThroughProxyNoUserFromDownStream(
-  ctx: APIRequestContext,
-  data: any,
-) {
-  // use a dedicated downstream endpoint that returns no `user` field
-  const url = PROXY_LOGIN_NO_USER_URL;
-  return post(ctx, url, data);
+export async function loginThroughProxyNoUserFromDownStream(ctx: APIRequestContext, data: any) {
+    // use a dedicated downstream endpoint that returns no `user` field
+    return post(ctx, PROXY_LOGIN_NO_USER_URL, data);
 }
 
 /**
@@ -38,14 +29,10 @@ export async function loginThroughProxyNoUserFromDownStream(
  * rather than JSON. The proxy will attempt `response.json()` and should fail
  * (producing a 500 error).
  */
-export async function loginThroughProxyWithInvalidJson(
-  ctx: APIRequestContext,
-  data: any,
-) {
-  const url = PROXY_LOGIN_INVALID_URL;
-  return post(ctx, url, data);
+export async function loginThroughProxyWithInvalidJson(ctx: APIRequestContext, data: any) {
+    return post(ctx, PROXY_LOGIN_INVALID_URL, data);
 }
 
 export async function loginDirect(ctx: APIRequestContext, data: any) {
-  return post(ctx, DIRECT_LOGIN_URL, data);
+    return post(ctx, DIRECT_LOGIN_URL, data);
 }
