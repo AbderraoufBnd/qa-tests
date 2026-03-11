@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import {
   loginThroughProxy,
   post,
-  loginThroughProxySimulateNoUserFromDownStreamServer,
+  loginThroughProxyNoUserFromDownStream,
   loginThroughProxyWithInvalidJson,
 } from "../helpers/apiClient";
 
