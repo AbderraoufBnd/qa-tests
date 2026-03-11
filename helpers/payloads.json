@@ -1,6 +1,5 @@
 {
     "missingUser": { "foo": "bar" },
     "validUser": { "user": "alice", "data": 123 },
-    "userOnly": { "user": "alice" },
     "plainText": "this is not json"
 }
