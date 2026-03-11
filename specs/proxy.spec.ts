@@ -10,7 +10,7 @@ test.describe("Proxy service", () => {
     });
 
     test("forwards valid request and strips user from response", async ({ request }) => {
-        const resp = await loginThroughProxy(request, payloads.validProxy);
+        const resp = await loginThroughProxy(request, payloads.validUser);
         expect(resp.status()).toBe(200);
         const body = await resp.json();
         console.log("Response status:", resp.status(), body);
