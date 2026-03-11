@@ -86,8 +86,8 @@ A Playwright/TypeScript test suite has been added to verify all of the requireme
 
 The tests are organised professionally:
 
-- `qa-tests/tests/specs/` – contains the `.spec.ts` test files
-- `qa-tests/tests/fixtures/` – helper modules and URL constants used by the specs
+- `qa-tests/specs/` – contains the `.spec.ts` test files
+- `qa-tests/fixtures/` – helper modules and URL constants used by the specs
 - configuration files (`playwright.config.ts`, `tsconfig.json`, `package.json`) are at the root of `qa-tests/tests` so they apply to the whole suite.
 
 This mirrors best practice by separating fixtures from the actual test cases.
@@ -125,7 +125,7 @@ This mirrors best practice by separating fixtures from the actual test cases.
 
    A browser window will open with verbose results; the report is also saved in `playwright-report/index.html`.
 
-The helper code and URL constants lives in `qa-tests/tests/helpers/api` for clean reuse and maintenance. The JavaScript client scripts in `downStreamServer` (`proxy_client.js` and `direct_client.js`) now export functions that the Playwright tests even call directly – they can also be used standalone if you prefer to verify behaviour via Node.
+The helper code and URL constants lives in `qa-tests/helpers/api` for clean reuse and maintenance. The JavaScript client scripts in `downStreamServer` (`proxy_client.js` and `direct_client.js`) now export functions that the Playwright tests even call directly – they can also be used standalone if you prefer to verify behaviour via Node.
 
 Install Node dependencies and run the demo with:
 
