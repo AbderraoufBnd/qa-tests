@@ -41,41 +41,49 @@ downstream server.
 
 ### 🔍 Individual test cases (executed in Postman)
 
+**Precondition:** both the proxy (`http://localhost:8000`) and downstream
+(`http://localhost:8085`) services are running and healthy.
+
 1. **Downstream – missing `user` field**
-   - I create a POST to `http://localhost:8085/login`.
-   - I add the `missingUser` JSON payload.
-   - I expect a **400** response; the body should say something like
+   - Given a POST to `http://localhost:8085/login` with the `missingUser`
+     payload.
+   - When the downstream service processes the body.
+   - Then it should return **400** with a message like
      `"Missing 'user' key"`.
 
 2. **Downstream – valid request**
-   - POST to `http://localhost:8085/login` with `validDownstream` payload.
-   - I should get **200** and a JSON body containing `user: "bob"`, a
-     `token` value, and a `timestamp`.
+   - Given a POST to `http://localhost:8085/login` carrying
+     `validDownstream`.
+   - When the service handles the request.
+   - Then the response should be **200**, echoing `user: "bob"`, plus a
+     `token` and `timestamp` in the JSON body.
 
 3. **Proxy – request without user**
-   - POST to `http://localhost:8000/login` with `missingUser`.
-   - The proxy should immediately return **400** (no call to downstream).
+   - Given a POST to `http://localhost:8000/login` using `missingUser`.
+   - When the proxy inspects the request.
+   - Then it should immediately reply **400** without consulting downstream.
 
 4. **Proxy – normal forwarding**
-   - POST to `http://localhost:8000/login` with `validProxy`.
-   - I expect **200**.  The returned JSON must **not** have a `user` field (the
-     proxy strips it), but it should include other data such as `token` and
-     `timestamp` from the downstream service.
+   - Given a POST to `http://localhost:8000/login` with `validProxy`.
+   - When the proxy forwards the request to downstream.
+   - Then the proxy should return **200**, strip the `user` field from the
+     downstream JSON, and preserve other fields like `token` and `timestamp`.
 
 5. **Proxy – downstream omits user**
-   - POST to `http://localhost:8000/login-no-user` with `userOnly`.
-   - I should see **400** because the proxy detects the missing `user` in the
-     downstream response and treats it as an error.
-
-6. **Proxy – downstream returns non‑JSON**
-   - POST to `http://localhost:8000/login-invalid` with `userOnly`.
-   - The proxy will try to parse the reply as JSON and fail, giving me a **500**
+   - Given a POST to `http://localhost:8000/login-no-user` with `userOnly`.
+   - When the downstream endpoint deliberately drops `user`.
+   - Then the proxy should respond with **400**, treating the missing value as an
      error.
 
+6. **Proxy – downstream returns non‑JSON**
+   - Given a POST to `http://localhost:8000/login-invalid` with `userOnly`.
+   - When the proxy attempts to parse the downstream reply as JSON.
+   - Then parsing fails and the proxy surfaces a **500** error.
+
 7. **Proxy – client sends invalid JSON**
-   - POST to `http://localhost:8000/login` but set `Content-Type` to
-     `text/plain` and use the raw text `this is not json`.
-   - I expect a **400** response (the proxy rejects the invalid JSON before
-     forwarding).
+   - Given a POST to `http://localhost:8000/login` with `Content-Type:`
+     `text/plain` and the raw text `this is not json`.
+   - When the proxy tries to consume the body.
+   - Then it rejects the request with a **400** before hitting downstream.
 
 
