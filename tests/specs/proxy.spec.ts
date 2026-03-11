@@ -5,9 +5,7 @@ import {
   loginThroughProxySimulateNoUserFromDownStreamServer,
   loginThroughProxyWithInvalidJson,
 } from "../fixtures/apiClient";
-import { PROXY_LOGIN_URL } from "../fixtures/urls";
-// bring in the standalone JS proxy client (for demonstration/use in tests)
-// explicit .js extension required for resolution from TS
+
 import payloads from "../data/payloads.json";
 
 test.describe("Proxy service", () => {
@@ -46,7 +44,7 @@ test.describe("Proxy service", () => {
     );
     expect(resp.status()).toBeGreaterThanOrEqual(400);
   });
-  //the proxy server expects a json body from the client : The proxy expects a json request body
+  //the proxy server expects a json body from the client
   test("errors when request body is not valid JSON", async ({ request }) => {
     const resp = await loginThroughProxy(request, payloads.plainText);
     expect(resp.status()).toBeGreaterThanOrEqual(400);
