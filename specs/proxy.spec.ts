@@ -19,12 +19,12 @@ test.describe("Proxy service", () => {
     });
 
     test("responds 400 if downstream response lacks user (dedicated route)", async ({ request }) => {
-        const resp = await loginThroughProxyNoUserFromDownStream(request, payloads.userOnly);
+        const resp = await loginThroughProxyNoUserFromDownStream(request, payloads.validUser);
         expect(resp.status()).toBe(400);
     });
 
     test("errors when downstream response is not valid JSON", async ({ request }) => {
-        const resp = await loginThroughProxyWithInvalidJson(request, payloads.userOnly);
+        const resp = await loginThroughProxyWithInvalidJson(request, payloads.validUser);
         expect(resp.status()).toBeGreaterThanOrEqual(400);
     });
     //the proxy server expects a json body from the client
