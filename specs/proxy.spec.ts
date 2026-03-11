@@ -6,7 +6,7 @@ import {
   loginThroughProxyWithInvalidJson,
 } from "../helpers/apiClient";
 
-import payloads from "../data/payloads.json";
+import payloads from "../helpers/payloads.json";
 
 test.describe("Proxy service", () => {
   test("returns 400 when request body lacks user", async ({ request }) => {
