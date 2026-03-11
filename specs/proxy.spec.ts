@@ -4,7 +4,7 @@ import {
   post,
   loginThroughProxySimulateNoUserFromDownStreamServer,
   loginThroughProxyWithInvalidJson,
-} from "../fixtures/apiClient";
+} from "../helpers/apiClient";
 
 import payloads from "../data/payloads.json";
 

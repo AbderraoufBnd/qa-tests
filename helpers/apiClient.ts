@@ -4,7 +4,7 @@ import {
   PROXY_LOGIN_NO_USER_URL,
   DIRECT_LOGIN_URL,
   PROXY_LOGIN_INVALID_URL,
-} from "./urls";
+} from "../fixtures/urls";
 
 /**
  * Make a generic POST request with JSON body.

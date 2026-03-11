@@ -1,9 +1,8 @@
 import { test, expect } from "@playwright/test";
-import { loginDirect } from "../fixtures/apiClient";
+import { loginDirect } from "../helpers/apiClient";
 // include JS client helper for direct calls
 // note the explicit .js extension ensures Node can resolve when compiled from TypeScript
-import payloads from "../data/payloads.json";
-
+import payloads from "../helpers/payloads.json";
 
 test.describe("Downstream server", () => {
   test("returns 400 when body lacks user", async ({ request }) => {
