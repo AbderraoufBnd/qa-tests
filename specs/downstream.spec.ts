@@ -14,7 +14,8 @@ test.describe("Downstream server", () => {
         const resp = await loginDirect(request, payloads.validUser);
         expect(resp.status()).toBe(200);
         const body = await resp.json();
-        expect(body).toHaveProperty("user", payloads?.validUser?.data);
+        expect(body).toHaveProperty("user", payloads?.validUser?.user);
+        expect(body).toHaveProperty("data", payloads?.validUser?.data);
         expect(body).toHaveProperty("token");
     });
 });
