@@ -24,7 +24,7 @@ export async function loginThroughProxy(ctx: APIRequestContext, data: any) {
  * Send a request through the proxy while asking downstream to omit the user
  * field via a dedicated downstream endpoint. The proxy should then respond with 400.
  */
-export async function loginThroughProxySimulateNoUserFromDownStreamServer(
+export async function loginThroughProxyNoUserFromDownStream(
   ctx: APIRequestContext,
   data: any,
 ) {

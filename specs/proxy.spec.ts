@@ -28,7 +28,7 @@ test.describe("Proxy service", () => {
   test("responds 400 if downstream response lacks user (dedicated route)", async ({
     request,
   }) => {
-    const resp = await loginThroughProxySimulateNoUserFromDownStreamServer(
+    const resp = await loginThroughProxyNoUserFromDownStream(
       request,
       payloads.userOnly,
     );
